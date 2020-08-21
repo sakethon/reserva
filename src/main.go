@@ -9,7 +9,7 @@ import (
 )
 
 func getImg() {
-    mg, err := ioutil.ReadFile("resource/input/example.jpg")
+    img, err := ioutil.ReadFile("resource/input/example.jpg")
         if err != nil {
             fmt.Fprintln(os.Stderr, err)
             return
