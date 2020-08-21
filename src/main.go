@@ -15,7 +15,11 @@ func getImg()([]byte, error) {
 }
 
 func writeImg(img []byte) {
-    ioutil.WriteFile("resource/output/example.jpg", img, 0644)
+    err := ioutil.WriteFile("resource/output/example.jpg", img, 0644)
+    if err != nil {
+             fmt.Fprintln(os.Stderr, err)
+             return
+    }
 }
 
 func main() {
