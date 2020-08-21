@@ -1,7 +1,22 @@
 package main
 
-import "fmt"
+import (
+    "fmt"
+    "io/ioutil"
+    _ "image/jpeg"
+    _ "image/png"
+    "os"
+)
+
+func getImg() {
+    mg, err := ioutil.ReadFile("resource/input/example.jpg")
+        if err != nil {
+            fmt.Fprintln(os.Stderr, err)
+            return
+        }
+    fmt.Printf("File contents: %s", img)
+}
 
 func main() {
-	fmt.Println("Hello, World!")
+	getImg()
 }
