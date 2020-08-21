@@ -8,15 +8,21 @@ import (
     "os"
 )
 
-func getImg() {
+func getImg()([]byte, error) {
     img, err := ioutil.ReadFile("resource/input/example.jpg")
-        if err != nil {
-            fmt.Fprintln(os.Stderr, err)
-            return
-        }
-    fmt.Printf("File contents: %s", img)
+
+    return img, err
+}
+
+func writeImg(img []byte) {
+    ioutil.WriteFile("resource/output/example.jpg", img, 0644)
 }
 
 func main() {
-	getImg()
+	img, err := getImg()
+	 if err != nil {
+         fmt.Fprintln(os.Stderr, err)
+         return
+     }
+	writeImg(img)
 }
