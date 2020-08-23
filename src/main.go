@@ -2,20 +2,27 @@ package main
 
 import (
 	"fmt"
+	"image"
 	_ "image/jpeg"
 	_ "image/png"
-	"io/ioutil"
 	"os"
+
+	"github.com/disintegration/imaging"
 )
 
-func getImg() ([]byte, error) {
-	img, err := ioutil.ReadFile("resource/input/example.jpg")
+func getImg() (image.Image, error) {
+	img, err := imaging.Open("resource/input/example.jpg")
 
 	return img, err
 }
 
-func writeImg(img []byte) {
-	err := ioutil.WriteFile("resource/output/example.jpg", img, 0644)
+func resizeImg(img image.Image) image.Image {
+	resizedImg := imaging.Resize(img, 800, 0, imaging.Lanczos)
+	return resizedImg
+}
+
+func writeImg(img image.Image) {
+	err := imaging.Save(img, "resource/output/example.jpg")
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		return
@@ -28,5 +35,6 @@ func main() {
 		fmt.Fprintln(os.Stderr, err)
 		return
 	}
-	writeImg(img)
+	resizedImg := resizeImg(img)
+	writeImg(resizedImg)
 }
