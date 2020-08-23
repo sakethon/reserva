@@ -27,9 +27,7 @@ func createLogger() (*zap.Logger, error) {
 }
 
 func getImg() ([]byte, error) {
-	img, err := ioutil.ReadFile("resource/input/example.jpg")
-
-	return img, err
+	return ioutil.ReadFile("resource/input/example.jpg")
 }
 
 func writeImg(img []byte) error {
