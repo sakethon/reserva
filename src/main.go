@@ -10,6 +10,10 @@ import (
 	"github.com/disintegration/imaging"
 )
 
+const (
+	DEFAULT_IMAGE_SAIZE = 100
+)
+
 func getImg() (image.Image, error) {
 	img, err := imaging.Open("resource/input/example.jpg")
 
@@ -17,7 +21,7 @@ func getImg() (image.Image, error) {
 }
 
 func resizeImg(img image.Image) image.Image {
-	resizedImg := imaging.Resize(img, 800, 0, imaging.Lanczos)
+	resizedImg := imaging.Resize(img, DEFAULT_IMAGE_SAIZE, 0, imaging.Lanczos)
 	return resizedImg
 }
 
