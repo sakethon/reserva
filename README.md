@@ -26,3 +26,9 @@ docker-compose exec app go run main.go
 docker-compose exec app sh
 go run main.go
 ```
+
+### linter実行
+
+```sh
+docker-compose exec app golangci-lint run
+```
