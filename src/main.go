@@ -47,6 +47,7 @@ func main() {
 	if err != nil {
 		return
 	}
+	defer logger.Sync()
 
 	img, err := getImg()
 	if err != nil {
