@@ -39,7 +39,7 @@ func main() {
 	if err != nil {
 		return
 	}
-	defer logger.Sync()
+	defer logger.Sync() // nolint
 
 	logger.Info("convert started")
 
