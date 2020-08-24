@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	DEFAULT_IMAGE_SAIZE = 100
+	DEFAULT_IMAGE_SIZE = 800
 )
 
 func getImg() (image.Image, error) {
@@ -21,7 +21,7 @@ func getImg() (image.Image, error) {
 }
 
 func resizeImg(img image.Image) image.Image {
-	resizedImg := imaging.Resize(img, DEFAULT_IMAGE_SAIZE, 0, imaging.Lanczos)
+	resizedImg := imaging.Resize(img, DEFAULT_IMAGE_SIZE, 0, imaging.Lanczos)
 	return resizedImg
 }
 
