@@ -57,5 +57,5 @@ func main() {
 		return
 	}
 
-	logger.Info("convert complted")
+	logger.Info("convert completed")
 }
