@@ -1,12 +1,17 @@
 package main
 
 import (
+	"image"
 	_ "image/jpeg"
 	_ "image/png"
-	"io/ioutil"
 
+	"github.com/disintegration/imaging"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+)
+
+const (
+	DEFAULT_IMAGE_SIZE = 800
 )
 
 func createLogger() (*zap.Logger, error) {
@@ -26,12 +31,20 @@ func createLogger() (*zap.Logger, error) {
 	return logConfig.Build()
 }
 
-func getImg() ([]byte, error) {
-	return ioutil.ReadFile("resource/input/example.jpg")
+func getImg() (image.Image, error) {
+	img, err := imaging.Open("resource/input/example.jpg")
+
+	return img, err
 }
 
-func writeImg(img []byte) error {
-	return ioutil.WriteFile("resource/output/example.jpg", img, 0644)
+func resizeImg(img image.Image) image.Image {
+	resizedImg := imaging.Resize(img, DEFAULT_IMAGE_SIZE, 0, imaging.Lanczos)
+
+	return resizedImg
+}
+
+func writeImg(img image.Image) error {
+	return imaging.Save(img, "resource/output/example.jpg")
 }
 
 func main() {
@@ -50,8 +63,11 @@ func main() {
 		return
 	}
 
+	logger.Info("resize image")
+	resizedImg := resizeImg(img)
+
 	logger.Info("write image")
-	err = writeImg(img)
+	err = writeImg(resizedImg)
 	if err != nil {
 		logger.Warn("failed to write image", zap.Error(err))
 		return
