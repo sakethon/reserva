@@ -4,6 +4,8 @@
 
 ```sh
 git clone git@github.com:rymiyamoto/reserva.git
+cd reserva
+cp .env.dev .env
 docker-compose up -d
 ```
 

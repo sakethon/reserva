@@ -17,6 +17,9 @@
 # bin
 src/reserva
 
+# env
+.env
+
 # win
 # Windows thumbnail cache files
 Thumbs.db
