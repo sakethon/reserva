@@ -6,3 +6,23 @@ services:
     tty: true
     volumes:
       - ./src:/src
+  minio:
+    build:
+      context: ./docker/minio
+    volumes:
+      - './data/minio:/data'
+    ports:
+      - 9000:9000
+    environment:
+      - 'MINIO_ACCESS_KEY=${AWS_ACCESS_KEY_ID}'
+      - 'MINIO_SECRET_KEY=${AWS_SECRET_ACCESS_KEY}'
+  miniomc:
+    build:
+      context: ./docker/miniomc
+    environment:
+        - 'MINIO_ACCESS_KEY=${AWS_ACCESS_KEY_ID}'
+        - 'MINIO_SECRET_KEY=${AWS_SECRET_ACCESS_KEY}'
+        - 'MINIO_BUCKET_IN=${AWS_S3_BUCKET_UPLOADED}'
+        - 'MINIO_BUCKET_OUT=${AWS_S3_BUCKET_CONVERTED}'
+    depends_on:
+      - minio
