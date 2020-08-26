@@ -14,4 +14,3 @@ jobs:
       - name: golangci-lint
         run: docker run -v "$PWD:/src" rymiyamoto/reserva-go-docker:latest /bin/sh -c "go mod download && golangci-lint run"
         working-directory: src
-
