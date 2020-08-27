@@ -20,6 +20,9 @@ src/reserva
 # env
 .env
 
+# data
+data/*
+
 # win
 # Windows thumbnail cache files
 Thumbs.db
