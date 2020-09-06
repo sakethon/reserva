@@ -86,3 +86,7 @@ func main() {
 
 	logger.Info("convert completed")
 }
+
+func main() {
+	lambda.Start(Handler)
+}
