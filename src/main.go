@@ -1,10 +1,21 @@
 package main
 
 import (
+	"bytes"
+	"context"
+	"fmt"
 	"image"
 	_ "image/jpeg"
+	"image/png"
 	_ "image/png"
+	"io/ioutil"
 
+	"github.com/aws/aws-lambda-go/events"
+	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/client"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/disintegration/imaging"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
