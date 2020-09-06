@@ -86,33 +86,41 @@ func writeImg(s3Svc *s3.S3, bucket string, key string, img image.Image) error {
 	return nil
 }
 
-func main() {
+func Handler(ctx context.Context, req events.S3Event) (string, error) {
 	logger, err := createLogger()
 	if err != nil {
-		return
+		return "", err
 	}
 	defer logger.Sync() // nolint
 
 	logger.Info("convert started")
 
+	logger.Info("create session")
+	awsSession := session.Must(session.NewSession(&aws.Config{Region: aws.String("us-east-2")}))
+	s3Svc := createS3Client(awsSession)
+
+	imgBytes, err := getBytesFromS3(s3Svc, req.Records[0].S3.Bucket.Name, req.Records[0].S3.Object.Key)
+
 	logger.Info("read image")
-	img, err := getImg()
+	img, _, err := getImg(imgBytes)
 	if err != nil {
 		logger.Warn("failed to read image", zap.Error(err))
-		return
+		return "", err
 	}
 
 	logger.Info("resize image")
 	resizedImg := resizeImg(img)
 
 	logger.Info("write image")
-	err = writeImg(resizedImg)
+	err = writeImg(s3Svc, "reserva-converted-img", req.Records[0].S3.Object.Key, resizedImg)
 	if err != nil {
 		logger.Warn("failed to write image", zap.Error(err))
-		return
+		return "", err
 	}
 
 	logger.Info("convert completed")
+
+	return "", nil
 }
 
 func main() {
