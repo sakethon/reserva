@@ -54,8 +54,23 @@ func resizeImg(img image.Image) image.Image {
 	return resizedImg
 }
 
-func writeImg(img image.Image) error {
-	return imaging.Save(img, "resource/output/example.jpg")
+func writeImg(s3Svc *s3.S3, bucket string, key string, img image.Image) error {
+	buff := new(bytes.Buffer)
+
+	err := png.Encode(buff, img)
+	if err != nil {
+		fmt.Println("failed to create buffer", err)
+	}
+
+	_, err = s3Svc.PutObject(&s3.PutObjectInput{
+		Bucket: aws.String(bucket),
+		Key:    aws.String(key),
+		Body:   bytes.NewReader(buff.Bytes()),
+	})
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func main() {
