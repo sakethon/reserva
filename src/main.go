@@ -25,6 +25,21 @@ const (
 	DEFAULT_IMAGE_SIZE = 800
 )
 
+func createS3Client(awsSession client.ConfigProvider) *s3.S3 {
+	return s3.New(awsSession)
+}
+
+func getBytesFromS3(s3Svc *s3.S3, bucket string, key string) ([]byte, error) {
+	resp, err := s3Svc.GetObject(&s3.GetObjectInput{
+		Bucket: aws.String(bucket),
+		Key:    aws.String(key),
+	})
+	if err != nil {
+		return nil, err
+	}
+	return ioutil.ReadAll(resp.Body)
+}
+
 func createLogger() (*zap.Logger, error) {
 	logConfig := zap.Config{
 		OutputPaths: []string{"stdout"},
