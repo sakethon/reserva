@@ -42,10 +42,8 @@ func createLogger() (*zap.Logger, error) {
 	return logConfig.Build()
 }
 
-func getImg() (image.Image, error) {
-	img, err := imaging.Open("resource/input/example.jpg")
-
-	return img, err
+func getImg(imgBytes []byte) (image.Image, string, error) {
+	return image.Decode(bytes.NewReader(imgBytes))
 }
 
 func resizeImg(img image.Image) image.Image {
