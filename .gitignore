@@ -17,6 +17,9 @@
 # bin
 src/reserva
 
+# zip
+src/reserva.zip
+
 # env
 .env
 
