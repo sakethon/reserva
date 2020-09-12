@@ -3,8 +3,10 @@ package main
 import (
 	"bytes"
 	"context"
+	"errors"
 	"fmt"
 	"image"
+	"image/jpeg"
 	_ "image/jpeg"
 	"image/png"
 	_ "image/png"
@@ -67,10 +69,20 @@ func resizeImg(img image.Image) image.Image {
 	return resizedImg
 }
 
-func writeImg(s3Svc *s3.S3, bucket string, key string, img image.Image) error {
+func writeImg(s3Svc *s3.S3, bucket string, key string, img image.Image, format string) error {
 	buff := new(bytes.Buffer)
 
-	err := png.Encode(buff, img)
+	err := nill
+
+	switch format {
+	case "png":
+		err = png.Encode(buff, img)
+	case "jpeg":
+		err = jpeg.Encode(buff, img, nill)
+	default:
+		err = errors.New("Unsuport format")
+	}
+
 	if err != nil {
 		fmt.Println("failed to create buffer", err)
 	}
@@ -102,7 +114,7 @@ func Handler(ctx context.Context, req events.S3Event) (string, error) {
 	imgBytes, err := getBytesFromS3(s3Svc, req.Records[0].S3.Bucket.Name, req.Records[0].S3.Object.Key)
 
 	logger.Info("read image")
-	img, _, err := getImg(imgBytes)
+	img, format, err := getImg(imgBytes)
 	if err != nil {
 		logger.Warn("failed to read image", zap.Error(err))
 		return "", err
@@ -112,7 +124,7 @@ func Handler(ctx context.Context, req events.S3Event) (string, error) {
 	resizedImg := resizeImg(img)
 
 	logger.Info("write image")
-	err = writeImg(s3Svc, "reserva-converted-img", req.Records[0].S3.Object.Key, resizedImg)
+	err = writeImg(s3Svc, "reserva-converted-img", req.Records[0].S3.Object.Key, resizedImg, format)
 	if err != nil {
 		logger.Warn("failed to write image", zap.Error(err))
 		return "", err
