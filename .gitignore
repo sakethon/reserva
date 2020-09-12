@@ -15,10 +15,10 @@
 # vendor/
 
 # bin
-src/reserva
+reserva
 
 # zip
-src/reserva.zip
+reserva.zip
 
 # env
 .env
