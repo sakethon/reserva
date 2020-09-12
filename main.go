@@ -72,13 +72,13 @@ func resizeImg(img image.Image) image.Image {
 func writeImg(s3Svc *s3.S3, bucket string, key string, img image.Image, format string) error {
 	buff := new(bytes.Buffer)
 
-	err := nill
+	err := nil
 
 	switch format {
 	case "png":
 		err = png.Encode(buff, img)
 	case "jpeg":
-		err = jpeg.Encode(buff, img, nill)
+		err = jpeg.Encode(buff, img, nil)
 	default:
 		err = errors.New("Unsuport format")
 	}
