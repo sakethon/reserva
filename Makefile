@@ -1,5 +1,5 @@
-REGION=us-east-2
-PROFILE=reserva
+REGION = us-east-2
+PROFILE = reserva
 
 upload:
 	cd src/
