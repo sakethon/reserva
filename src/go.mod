@@ -1,4 +1,4 @@
-module rymiyamoto/reserva
+module Sakethon/reserva
 
 go 1.15
 
