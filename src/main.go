@@ -96,7 +96,7 @@ func Handler(ctx context.Context, req events.S3Event) (string, error) {
 	logger.Info("convert started")
 
 	logger.Info("create session")
-	awsSession := session.Must(session.NewSession(&aws.Config{Region: aws.String("us-east-2")}))
+	awsSession := session.Must(session.NewSession(&aws.Config{Region: aws.String(os.Getenv("AWS_REGION")}))
 	s3Svc := createS3Client(awsSession)
 
 	imgBytes, err := getBytesFromS3(s3Svc, req.Records[0].S3.Bucket.Name, req.Records[0].S3.Object.Key)
