@@ -15,13 +15,13 @@
 # vendor/
 
 # bin
-src/reserva
+reserva
+
+# zip
+reserva.zip
 
 # env
 .env
-
-# data
-data/*
 
 # win
 # Windows thumbnail cache files
